@@ -1,24 +1,26 @@
 def stock(days)
+  arr = []
+  days.combination(2) { |a| arr.push(a) }     # Makes subsets of days in ascending order
+  profit = 0
+  bestDays = []
+  arr.each do |x| # Checks for the most profit
+    next unless (x[1] - x[0] > profit) && (x == x.sort)
 
-    arr = []
-    days.combination(2) {|a| arr.push(a)}     #Makes subsets of days in ascending order
-    profit = 0
+    profit = x[1] - x[0]
     bestDays = []
-    arr.each do |x|                                 #Checks for the most profit
-        if (x[1] - x[0] > profit) && (x == x.sort)
-            profit = x[1] - x[0]
-            bestDays = []
-            bestDays.push(days.each_index.select { |i| days[i]== x[0]}.first)    #Pushes the index of max and min values 
-            bestDays.push(days.each_index.select { |i| days[i]== x[1]}.last)     #ignoring the duplicates.
-        end
-    end
-    
+    bestDays.push(# Pushes the index of max and min values
+days.each_index.select do |i|
+  days[i] == x[0]
+                    end.first
+    bestDays.push(days.each_index.select { |i| days[i] == x[1] }.last) # refactored for the duplicates.
+  end
 
-
-    p bestDays                           #Returns and prints the best days
-    return bestDays
+  p bestDays # Returns and prints the best days
+  bestDays
 end
 
-
-#Test here!
-stock([10,2,4,1,6,3,9,10,6])
+# Test here!
+time = Time.now
+num = 5000                                                 # Cap = 5000 numbers @28 seconds
+stock(Array.new(num) { rand(1..1500) })
+puts "Took a total of #{Time.now - time}s with #{num} numbers"
