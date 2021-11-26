@@ -11,7 +11,7 @@ def stock(days)
     bestDays.push(# Pushes the index of max and min values
 days.each_index.select do |i|
   days[i] == x[0]
-                    end.first
+                    end.first)
     bestDays.push(days.each_index.select { |i| days[i] == x[1] }.last) # refactored for the duplicates.
   end
 
